@@ -26,8 +26,9 @@ connectDb();
 
 // Middleware
 app.use(cors({
-  origin: "*",   
-  credentials: true
+  origin: 'https://campusprojectfrontend.vercel.app/',  // Or '*' for all origins (less secure)
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Adjust as needed
+  allowedHeaders: ['Content-Type', 'Authorization'],  // If you're using auth headers
 }));
 app.use(express.json());
 
