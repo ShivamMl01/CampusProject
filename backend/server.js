@@ -26,12 +26,12 @@ connectDb();
 
 // Middleware
 app.use(cors({
-  origin: 'https://campusprojectfrontend.vercel.app/',  // Or '*' for all origins (less secure)
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Adjust as needed
-  allowedHeaders: ['Content-Type', 'Authorization'],  // If you're using auth headers
+  origin: 'https://campusprojectfrontend.vercel.app',  
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  
+  credentials: true
 }));
 app.use(express.json());
-
+ 
 
 // travel routes
 app.use("/api/travel",authMiddleware, travelRoutes);
