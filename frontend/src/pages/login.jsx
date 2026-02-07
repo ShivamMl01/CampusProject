@@ -24,7 +24,7 @@ const Login = () => {
   const onSubmitHandler = async (event) => {
   event.preventDefault();
 
-try {
+  try {
   let response;
 
   if (currentState === "Sign up") {
@@ -52,6 +52,7 @@ try {
   toast.error(error.response?.data?.message || error.message);
 }
 
+};
 
 
   //  if token exists navigate to home page
