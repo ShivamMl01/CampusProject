@@ -16,37 +16,38 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
 
-  const onSubmitHandler = async (event) => {
-    event.preventDefault();
+ const onSubmitHandler = async (event) => {
+  event.preventDefault();
 
-    try {
-      let response;
+  try {
+    let response;
 
-      if (currentState === "signup") {
-        response = await axios.post(
-          `${backendUrl}/api/auth/register`,
-          { name, email, password }
-        );
-      } else {
-        response = await axios.post(
-          `${backendUrl}/api/auth/login`,
-          { email, password }
-        );
-      }
-
-      console.log("AUTH RESPONSE:", response.data);
-
-      if (response.data.token) {
-        setToken(response.data.token);
-      } else {
-        toast.error(response.data.message || "Authentication failed");
-      }
-
-    } catch (error) {
-      console.error(error);
-      toast.error(error.response?.data?.message || error.message);
+    if (currentState === "signup") {
+      response = await axios.post(
+        `${backendUrl}/auth/register`,
+        { name, email, password }
+      );
+    } else {
+      response = await axios.post(
+        `${backendUrl}/auth/login`,
+        { email, password }
+      );
     }
-  };
+
+    console.log("AUTH RESPONSE:", response.data);
+
+    if (response.data.token) {
+      setToken(response.data.token);
+    } else {
+      toast.error(response.data.message || "Authentication failed");
+    }
+
+  } catch (error) {
+    console.error(error);
+    toast.error(error.response?.data?.message || error.message);
+  }
+};
+
 
   // redirect after login/signup
   useEffect(() => {
