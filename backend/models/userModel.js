@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
+  refreshToken: { type: String }  // Added this field
 }, { minimize: false });
 
 userSchema.methods.generateAccessToken = function() {
@@ -19,12 +20,12 @@ userSchema.methods.generateAccessToken = function() {
 userSchema.methods.generateRefreshToken = function() {
   return jwt.sign(
     { sub: this._id, email: this.email },
-    process.env.JWT_REFRESH_TOKEN_SECRET, 
+    process.env.JWT_REFRESH_TOKEN_SECRET,  
     { expiresIn: '7d' }  
   );
 };
 
-userSchema.methods.verifyPassword = async function(password) {  
+userSchema.methods.verifyPassword = async function(password) {
   return await bcrypt.compare(password, this.password);
 };
 

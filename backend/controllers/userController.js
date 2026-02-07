@@ -1,26 +1,26 @@
+import userModel from "../models/userModel.js";
+import { ApiError } from "../utils/apieroor.js";
 
-import { ApiError } from "../utils/apieroor.js"
+// create access & refresh tokens
+const generateAccessAndRefreshToken = async (userId) => {
+  try {
+    const user = await userModel.findById(userId);
 
-import {userModel} from "../models/userModel.js"
-
-
-//how to create tokens
-
-const genrateAcessandrefrshToken = async(userId)=>{
-//select user by his id
-try {
-    const user = await userModel.findById(userId)
-    if(!user){
-        throw new ApiError(400,"user not found")
+    if (!user) {
+      throw new ApiError(404, "User not found");
     }
 
-    const acessToken =user.generateAccessToken()
-    const refreshToken = user.generateRefreshToken()
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
 
-    user.refreshToken = refreshToken
-    await user.save({validateBeforeSave:false})
-    return {acessToken,refreshToken}
-} catch (error) {
-    throw new ApiError(400,"something went wrong while generating tokens");
-}
-}
+    user.refreshToken = refreshToken;
+    await user.save({ validateBeforeSave: false });
+
+    return { accessToken, refreshToken };
+
+  } catch (error) {
+    throw new ApiError(500, "Something went wrong while generating tokens");
+  }
+};
+
+export default generateAccessAndRefreshToken;
